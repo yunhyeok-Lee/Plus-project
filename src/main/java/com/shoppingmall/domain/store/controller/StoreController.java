@@ -32,11 +32,23 @@ public class StoreController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/stores")
+    public ResponseEntity<List<StoreResponseDto>> findAll() {
+        return ResponseEntity.ok(storeService.findAll());
+    }
+
+    @DeleteMapping("/stores/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        storeService.deleteById(id);
+        return ResponseEntity.ok("Success");
+    }
 
 
-
-    @DeleteMapping
+    @PutMapping("/stores/{id}")
+    public ResponseEntity<StoreResponseDto> updateById(@PathVariable Long id,
+                                                       @RequestBody StoreRequestDto storeRequestDto) {
+        return ResponseEntity.ok(storeService.update(id, storeRequestDto.getContent()));
+    }
 }
 
 

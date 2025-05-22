@@ -40,4 +40,8 @@ public class Store {
         this.monitoredAt = monitoredAt;
         this.content = content;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }
