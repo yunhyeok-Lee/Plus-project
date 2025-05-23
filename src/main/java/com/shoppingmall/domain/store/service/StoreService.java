@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
-@Service
 @Transactional
-
+@Service
 public class StoreService {
 
     private final StoreRepository storeRepository;
@@ -34,7 +34,7 @@ public class StoreService {
     }
 
     public StoreResponseDto findById(Long id) {
-        Store store = storeRepository.findStoreById(id);
+        Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException());
 
         return new StoreResponseDto(store);
     }
@@ -50,15 +50,15 @@ public class StoreService {
     }
 
     public void deleteById(Long id) {
-        Store store = storeRepository.findStoreById(id);
+        Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException());
         storeRepository.delete(store);
     }
 
     @Transactional
-    public StoreResponseDto update(Long id, String content) {
+    public StoreResponseDto update(Long id, StoreRequestDto dto) {
         Store store = storeRepository.findById(id)
-                .orElseThrow();
-        store.update(content);
+                .orElseThrow(() -> new RuntimeException());
+        store.update(dto);
 
         return new StoreResponseDto(store);
 

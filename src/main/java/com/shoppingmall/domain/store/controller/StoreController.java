@@ -17,7 +17,7 @@ import java.util.List;
 @RestController // 데이터를 직접 json 같은 형태로 바꿔서 보내는 용도
 public class StoreController {
 
-    private StoreService storeService; // java클래스 안에 선언된 멤버 변수를 의미한다.
+    private final StoreService storeService; // java클래스 안에 선언된 멤버 변수를 의미한다.
 
     @PostMapping
     public ResponseEntity<StoreResponseDto> createStore(@RequestBody @Valid StoreRequestDto storeRequestDto) {
@@ -26,28 +26,28 @@ public class StoreController {
                 .body(response);
     }
 
-    @GetMapping("/stores/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StoreResponseDto> findById(@PathVariable Long id) {
         StoreResponseDto response = storeService.findById(id);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/stores")
+    @GetMapping
     public ResponseEntity<List<StoreResponseDto>> findAll() {
         return ResponseEntity.ok(storeService.findAll());
     }
 
-    @DeleteMapping("/stores/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         storeService.deleteById(id);
         return ResponseEntity.ok("Success");
     }
 
 
-    @PutMapping("/stores/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StoreResponseDto> updateById(@PathVariable Long id,
                                                        @RequestBody StoreRequestDto storeRequestDto) {
-        return ResponseEntity.ok(storeService.update(id, storeRequestDto.getContent()));
+        return ResponseEntity.ok(storeService.update(id, storeRequestDto));
     }
 }
 

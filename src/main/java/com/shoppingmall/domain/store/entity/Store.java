@@ -1,5 +1,6 @@
 package com.shoppingmall.domain.store.entity;
 
+import com.shoppingmall.domain.store.dto.StoreRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,7 +42,14 @@ public class Store {
         this.content = content;
     }
 
-    public void update(String content) {
-        this.content = content;
+    public void update(StoreRequestDto dto) {
+        this.storeName = dto.getStoreName();
+        this.mallName = dto.getMallName();
+        this.domainName = dto.getDomainName();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.address = dto.getAddress();
+        this.status = dto.getStatus();
+        this.monitoredAt = dto.getMonitoredAt();
+        this.content = dto.getContent();
     }
 }
