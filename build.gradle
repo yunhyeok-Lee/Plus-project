@@ -35,7 +35,30 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // QueryDSL 라이브러리 추가 -> SQL을 Java 코드 처럼 다룰 수 있게 해주기 위해
+//    implementation "com.querydsl:querydsl-jpa"
+//    annotationProcessor "com.querydsl:querydsl-apt"
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+
+    // jakarta.annotation-api 추가 -> JPA 어노테이션 기반으로 QClass를 생성하기 위해
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 }
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDirs += querydslDir
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += [
+            "-s", file(querydslDir).absolutePath
+    ]
+}
+
 
 tasks.named('test') {
     useJUnitPlatform()
